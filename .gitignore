@@ -1,0 +1,67 @@
+# Dependencies
+node_modules
+
+# Package manager
+.pnpm-store
+.pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist
+build
+lib
+.esbuild
+*.tsbuildinfo
+
+# Coverage
+coverage
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# -----------------------------
+# JetBrains / WebStorm
+# -----------------------------
+.idea
+*.iml
+
+# -----------------------------
+# VSCode (optional)
+# -----------------------------
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Temporary files
+tmp
+temp
+*.tmp
+
+# Testing
+jest-cache
+.nyc_output
+
+# Playground builds (if applicable)
+playground/dist
+
+# Lock files (optional if workspace manages them)
+package-lock.json
+yarn.lock
+
+# Misc
+*.local
