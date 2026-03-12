@@ -2,6 +2,8 @@ import type { HlsConfig } from "hls.js";
 
 export type DeviceMode = "desktop" | "mobile";
 
+type AspectRatio = `${number}/${number}`;
+
 export type VideoPlayerWrapperProps = {
     src: string;
     poster?: string;
@@ -20,6 +22,16 @@ export type VideoPlayerWrapperProps = {
     muted?: boolean;
     loop?: boolean;
     controls?: boolean;
+
+    frameMaxWidth?: {
+        desktop?: string;
+        mobile?: string;
+    };
+
+    aspectRatio?: {
+        desktop?: AspectRatio;
+        mobile?: AspectRatio;
+    };
 };
 
 export interface HLSPlayerProps extends React.VideoHTMLAttributes<HTMLVideoElement> {
