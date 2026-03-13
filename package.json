@@ -1,6 +1,6 @@
 {
-    "name": "react-video-player",
-    "version": "0.1.0",
+    "name": "@glitchlab/react-video-player",
+    "version": "0.1.1",
     "description": "React video player with HLS support (hls.js) compatible with Next.js and TypeScript",
     "license": "MIT",
     "type": "module",
@@ -60,5 +60,29 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/im-fahad/react-video-player"
-    }
+    },
+    "keywords": [
+        "react",
+        "video",
+        "player",
+        "hls",
+        "hls.js",
+        "streaming",
+        "m3u8",
+        "video-player",
+        "react-player",
+        "nextjs",
+        "typescript",
+        "tailwindcss",
+        "responsive",
+        "mobile",
+        "desktop",
+        "adaptive",
+        "overlay",
+        "hover-play",
+        "device-toggle",
+        "react-video-player",
+        "next-video-player",
+        "hls-video-player"
+    ]
 }

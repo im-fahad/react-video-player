@@ -121,22 +121,6 @@ also force HLS mode with the `isHls` prop if the URL doesn't end in `.m3u8`.
 
 ---
 
-## Architecture
-
-```
-src/
-├── index.ts              # Package entry — exports ReactVideoPlayer
-├── types/
-│   └── index.ts          # TypeScript types and interfaces
-├── VideoPlayerWrapper.tsx # Main component with UI, state, and overlays
-├── HLSPlayer.tsx          # Low-level video element with HLS.js integration
-├── utils/
-│   └── icons.tsx          # SVG icon components (Play, Close, Desktop, Mobile)
-└── styles.css             # Tailwind CSS entry
-```
-
----
-
 ## License
 
 MIT
