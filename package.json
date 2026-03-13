@@ -1,6 +1,6 @@
 {
     "name": "@glitchlab/react-video-player",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "React video player with HLS support (hls.js) compatible with Next.js and TypeScript",
     "license": "MIT",
     "type": "module",

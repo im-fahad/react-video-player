@@ -20,9 +20,7 @@ UI — built with Tailwind CSS.
 ## Installation
 
 ```bash
-npm install react-video-player
-# or
-yarn add react-video-player
+npm install @glitchlab/react-video-player
 ```
 
 > **Peer dependencies:** `react`, `react-dom`, `hls.js`, `clsx`, `tailwindcss`
@@ -32,7 +30,8 @@ yarn add react-video-player
 ## Usage
 
 ```tsx
-import {ReactVideoPlayer} from "react-video-player";
+import {ReactVideoPlayer} from "@glitchlab/react-video-player";
+import "@glitchlab/react-video-player/style.css";
 
 export default function App() {
     return (
