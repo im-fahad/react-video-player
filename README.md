@@ -258,8 +258,8 @@ The component is SSR-safe. Server output renders the static frame; HLS attaches 
 git clone https://github.com/im-fahad/react-video-player.git
 cd react-video-player
 pnpm install
-pnpm --filter @glitchlab/react-video-player test
-pnpm dev   # opens the local React playground at http://localhost:5173
+pnpm test
+pnpm build
 ```
 
 Issues and PRs welcome at <https://github.com/im-fahad/react-video-player/issues>.
