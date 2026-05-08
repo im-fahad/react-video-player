@@ -1,0 +1,106 @@
+{
+    "name": "@glitchlab/react-video-player",
+    "version": "1.0.0",
+    "description": "React video player with HLS support (hls.js), device-mode toggle, hover-to-play, and zero global CSS side-effects. Works with Next.js App Router and TypeScript.",
+    "license": "MIT",
+    "author": "im-fahad",
+    "type": "module",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "style": "./dist/style.css",
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ],
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.mjs",
+            "require": "./dist/index.cjs"
+        },
+        "./style.css": "./dist/style.css",
+        "./package.json": "./package.json"
+    },
+    "sideEffects": [
+        "**/*.css"
+    ],
+    "engines": {
+        "node": ">=18"
+    },
+    "peerDependencies": {
+        "hls.js": ">=1",
+        "react": ">=18",
+        "react-dom": ">=18"
+    },
+    "dependencies": {
+        "clsx": "^2.1.1"
+    },
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@testing-library/jest-dom": "^6.6.3",
+        "@testing-library/react": "^16.1.0",
+        "@types/react": "^18",
+        "@types/react-dom": "^18",
+        "@typescript-eslint/eslint-plugin": "^8.56.1",
+        "@typescript-eslint/parser": "^8.56.1",
+        "@vitejs/plugin-react": "^4",
+        "eslint": "^10.0.2",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-import": "^2.32.0",
+        "eslint-plugin-react": "^7.37.5",
+        "eslint-plugin-react-hooks": "^7.0.1",
+        "hls.js": "^1.5.0",
+        "jsdom": "^25.0.1",
+        "react": "^18",
+        "react-dom": "^18",
+        "typescript": "^5",
+        "typescript-eslint": "^8.56.1",
+        "vite": "^5",
+        "vite-plugin-dts": "^3",
+        "vitest": "^2.1.8"
+    },
+    "scripts": {
+        "build": "vite build",
+        "build:watch": "vite build --watch",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "lint": "eslint src",
+        "prepublishOnly": "pnpm build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/im-fahad/react-video-player.git",
+        "directory": "packages/react-video-player"
+    },
+    "homepage": "https://github.com/im-fahad/react-video-player#readme",
+    "bugs": {
+        "url": "https://github.com/im-fahad/react-video-player/issues"
+    },
+    "keywords": [
+        "react",
+        "video",
+        "player",
+        "hls",
+        "hls.js",
+        "streaming",
+        "m3u8",
+        "video-player",
+        "react-player",
+        "nextjs",
+        "next-app-router",
+        "use-client",
+        "typescript",
+        "responsive",
+        "mobile",
+        "desktop",
+        "adaptive",
+        "overlay",
+        "hover-play",
+        "device-toggle",
+        "react-video-player",
+        "next-video-player",
+        "hls-video-player"
+    ]
+}
