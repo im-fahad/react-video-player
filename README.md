@@ -100,10 +100,44 @@ No client-component wrapper required.
 | `muted`            | `boolean`                                         | `true`                                  | Mute the video. Required for autoplay in most browsers.                                  |
 | `loop`             | `boolean`                                         | `false`                                 | Loop playback.                                                                           |
 | `controls`         | `boolean`                                         | `false`                                 | Show native browser controls.                                                            |
+| `autoPlay`         | `boolean`                                         | `false`                                 | Start playback as soon as the source loads. Browsers block sound-on autoplay, so this only fires when `muted` is also `true` (the default). |
 | `frameMaxWidth`    | `{ desktop?: string; mobile?: string }`           | `{ desktop: "960px", mobile: "420px" }` | Max width of the player in each device mode.                                             |
 | `aspectRatio`      | `{ desktop?: AspectRatio; mobile?: AspectRatio }` | `{ desktop: "16/9", mobile: "9/16" }`   | Aspect ratio per device mode. `AspectRatio` is `` `${number}/${number}` ``.              |
 | `hlsConfig`        | `Hls.HlsConfig`                                   | —                                       | Optional hls.js config. Pass a stable reference (e.g. `useMemo`) to avoid HLS rebuilds.  |
 | `children`         | `React.ReactNode`                                 | —                                       | Rendered inside the underlying `<video>`. Use for `<track>` elements (captions/subs).    |
+
+---
+
+## YouTube URLs
+
+Pass any common YouTube URL as `src` and the player swaps the `<video>` element for a privacy-enhanced (`youtube-nocookie.com`) embed inside the same styled frame — no extra prop needed:
+
+```tsx
+<ReactVideoPlayer src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+<ReactVideoPlayer src="https://youtu.be/dQw4w9WgXcQ?t=90" autoPlay />
+<ReactVideoPlayer src="https://www.youtube.com/shorts/dQw4w9WgXcQ" />
+```
+
+Recognised forms: `youtube.com/watch?v=ID`, `youtu.be/ID`, `youtube.com/embed/ID`, `youtube.com/shorts/ID`, `youtube.com/live/ID`, `music.youtube.com/watch?v=ID`, and bare 11-character IDs. A `?t=` / `?start=` timestamp in the URL is honored.
+
+### Which props work over YouTube
+
+| Prop                                  | YouTube behavior                                                                                  |
+|---------------------------------------|---------------------------------------------------------------------------------------------------|
+| `muted`                               | ✅ Mutes the embed (`mute=1`).                                                                     |
+| `loop`                                | ✅ Loops the single video (`loop=1` + `playlist=<id>`, YouTube's required workaround).             |
+| `controls`                            | ✅ Shows/hides YouTube's controls (`controls=1` / `controls=0`).                                   |
+| `autoPlay`                            | ✅ Autoplays (`autoplay=1`). YouTube + browsers force muted autoplay, so `mute=1` is set too — even if `muted={false}`. |
+| `showDeviceToggle` / `defaultDevice`  | ✅ The desktop/mobile aspect-ratio toggle still works.                                             |
+| `onClose`                             | ✅ The close button still renders and fires.                                                       |
+| `className` / `frameMaxWidth` / `aspectRatio` | ✅ Frame styling, sizing, and aspect ratio all apply.                                      |
+| `hoverPlay`                           | ❌ **No effect.** Hover-to-play needs programmatic pause, which requires the YouTube IFrame Player API (not loaded). YouTube's own controls handle starting playback. |
+| `tooltipText`                         | ❌ **No effect.** The tooltip is attached to the centered play-button overlay, which isn't rendered for YouTube. |
+| `poster`                              | ❌ **No effect.** YouTube shows its own video thumbnail; a custom poster would require an overlay layer. |
+| `children` (`<track>` captions)       | ❌ **No effect.** There's no `<video>` element to attach `<track>` to — use YouTube's own caption settings. |
+| `hlsConfig`                           | ❌ **No effect.** Not an HLS stream.                                                               |
+
+> If you need `hoverPlay`, a custom poster, or a play-button overlay over a YouTube video, you'd need the YouTube IFrame Player API integrated — that's not in this build (it'd add a ~30 KB external script). Open an issue if it matters for your use case.
 
 ---
 
