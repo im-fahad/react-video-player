@@ -1,6 +1,6 @@
 {
     "name": "@glitchlab/react-video-player",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "description": "React video player with HLS support (hls.js), device-mode toggle, hover-to-play, and zero global CSS side-effects. Works with Next.js App Router and TypeScript.",
     "license": "MIT",
     "author": "im-fahad",
