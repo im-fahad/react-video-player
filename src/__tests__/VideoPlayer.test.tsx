@@ -83,4 +83,52 @@ describe("ReactVideoPlayer", () => {
         const root = container.querySelector(".gvp-root") as HTMLElement;
         expect(root.style.aspectRatio).toBe("4/3");
     });
+
+    it("renders a YouTube iframe for YouTube URLs", () => {
+        const { container } = render(
+            <ReactVideoPlayer src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+        );
+        const iframe = container.querySelector("iframe.gvp-youtube") as HTMLIFrameElement;
+        expect(iframe).toBeInTheDocument();
+        expect(iframe.src).toContain("youtube-nocookie.com/embed/dQw4w9WgXcQ");
+        // No <video>, no play-button overlay for YouTube.
+        expect(container.querySelector("video")).not.toBeInTheDocument();
+        expect(screen.queryByLabelText("Play")).not.toBeInTheDocument();
+    });
+
+    it("still renders the device toggle and close button for YouTube", () => {
+        render(
+            <ReactVideoPlayer
+                src="https://youtu.be/dQw4w9WgXcQ"
+                onClose={() => {}}
+            />
+        );
+        expect(screen.getByLabelText("Desktop view")).toBeInTheDocument();
+        expect(screen.getByLabelText("Close")).toBeInTheDocument();
+    });
+
+    it("threads autoPlay/loop/controls into the YouTube embed URL", () => {
+        const { container } = render(
+            <ReactVideoPlayer
+                src="https://youtu.be/dQw4w9WgXcQ"
+                autoPlay
+                loop
+                controls={false}
+            />
+        );
+        const iframe = container.querySelector("iframe.gvp-youtube") as HTMLIFrameElement;
+        expect(iframe.src).toContain("autoplay=1");
+        expect(iframe.src).toContain("mute=1");
+        expect(iframe.src).toContain("loop=1");
+        expect(iframe.src).toContain("playlist=dQw4w9WgXcQ");
+        expect(iframe.src).toContain("controls=0");
+    });
+
+    it("passes autoPlay to the native <video> element", () => {
+        const { container } = render(
+            <ReactVideoPlayer src="https://example.com/video.mp4" autoPlay />
+        );
+        const video = container.querySelector("video") as HTMLVideoElement;
+        expect(video.autoplay).toBe(true);
+    });
 });

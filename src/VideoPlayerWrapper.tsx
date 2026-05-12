@@ -5,6 +5,7 @@ import React, { useCallback, useMemo, useRef, useState } from "react";
 import { HLSPlayer } from "./HLSPlayer";
 import type { DeviceMode, VideoPlayerWrapperProps } from "./types";
 import { IconDesktop, IconMobile, IconPlay, IconX } from "./utils/icons";
+import { parseYouTubeId, parseYouTubeStart, youTubeEmbedUrl } from "./utils/youtube";
 
 export const VideoPlayerWrapper: React.FC<VideoPlayerWrapperProps> = ({
     src,
@@ -18,6 +19,7 @@ export const VideoPlayerWrapper: React.FC<VideoPlayerWrapperProps> = ({
     muted = true,
     loop = false,
     controls = false,
+    autoPlay = false,
     frameMaxWidth: customFrameMaxWidth,
     aspectRatio: customAspectRatio,
     hlsConfig,
@@ -30,6 +32,9 @@ export const VideoPlayerWrapper: React.FC<VideoPlayerWrapperProps> = ({
     const [isPlaying, setIsPlaying] = useState(false);
     const [showTooltip, setShowTooltip] = useState(false);
 
+    const youTubeId = useMemo(() => parseYouTubeId(src), [src]);
+    const isYouTube = youTubeId !== null;
+
     const aspectRatio = useMemo(() => {
         return device === "mobile"
             ? (customAspectRatio?.mobile ?? "9/16")
@@ -41,6 +46,20 @@ export const VideoPlayerWrapper: React.FC<VideoPlayerWrapperProps> = ({
             ? (customFrameMaxWidth?.mobile ?? "420px")
             : (customFrameMaxWidth?.desktop ?? "960px");
     }, [device, customFrameMaxWidth]);
+
+    const youTubeSrc = useMemo(
+        () =>
+            youTubeId
+                ? youTubeEmbedUrl(youTubeId, {
+                      autoPlay,
+                      muted,
+                      loop,
+                      controls,
+                      startSeconds: parseYouTubeStart(src),
+                  })
+                : null,
+        [youTubeId, src, autoPlay, muted, loop, controls]
+    );
 
     const safePause = useCallback(async () => {
         const el = videoRef.current;
@@ -72,14 +91,14 @@ export const VideoPlayerWrapper: React.FC<VideoPlayerWrapperProps> = ({
     }, []);
 
     const hoverStart = useCallback(() => {
-        if (!hoverPlay) return;
+        if (!hoverPlay || isYouTube) return;
         void safePlay();
-    }, [hoverPlay, safePlay]);
+    }, [hoverPlay, isYouTube, safePlay]);
 
     const hoverStop = useCallback(() => {
-        if (!hoverPlay) return;
+        if (!hoverPlay || isYouTube) return;
         void safePause().then(() => setIsPlaying(false));
-    }, [hoverPlay, safePause]);
+    }, [hoverPlay, isYouTube, safePause]);
 
     const togglePlay = useCallback(async () => {
         const el = videoRef.current;
@@ -109,24 +128,36 @@ export const VideoPlayerWrapper: React.FC<VideoPlayerWrapperProps> = ({
                 hoverStop();
             }}
         >
-            <HLSPlayer
-                ref={videoRef}
-                src={src}
-                poster={poster}
-                muted={muted}
-                loop={loop}
-                playsInline
-                preload="metadata"
-                controls={controls}
-                hlsConfig={hlsConfig}
-                className="gvp-video"
-                onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
-            >
-                {children}
-            </HLSPlayer>
+            {isYouTube ? (
+                <iframe
+                    className="gvp-video gvp-youtube"
+                    src={youTubeSrc ?? undefined}
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    referrerPolicy="strict-origin-when-cross-origin"
+                />
+            ) : (
+                <HLSPlayer
+                    ref={videoRef}
+                    src={src}
+                    poster={poster}
+                    muted={muted}
+                    loop={loop}
+                    playsInline
+                    preload="metadata"
+                    controls={controls}
+                    autoPlay={autoPlay}
+                    hlsConfig={hlsConfig}
+                    className="gvp-video"
+                    onPlay={() => setIsPlaying(true)}
+                    onPause={() => setIsPlaying(false)}
+                >
+                    {children}
+                </HLSPlayer>
+            )}
 
-            <div className="gvp-vignette" />
+            {!isYouTube && <div className="gvp-vignette" />}
 
             {showDeviceToggle && (
                 <div className="gvp-toggle">
@@ -173,7 +204,7 @@ export const VideoPlayerWrapper: React.FC<VideoPlayerWrapperProps> = ({
                 </button>
             )}
 
-            {!isPlaying && (
+            {!isYouTube && !isPlaying && (
                 <div className="gvp-play-wrap">
                     <button
                         type="button"
@@ -193,7 +224,7 @@ export const VideoPlayerWrapper: React.FC<VideoPlayerWrapperProps> = ({
                 </div>
             )}
 
-            <div className="gvp-bottom-fade" />
+            {!isYouTube && <div className="gvp-bottom-fade" />}
         </div>
     );
 };

@@ -34,6 +34,12 @@ export interface VideoPlayerWrapperProps {
     loop?: boolean;
     /** Show native browser controls. Defaults to `false`. */
     controls?: boolean;
+    /**
+     * Start playback as soon as the source loads. Defaults to `false`.
+     * Browsers block sound-on autoplay, so this only autoplays when `muted`
+     * is also `true` (which is the default).
+     */
+    autoPlay?: boolean;
 
     /** Maximum width of the player in each device mode. */
     frameMaxWidth?: {
