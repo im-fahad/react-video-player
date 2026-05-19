@@ -124,11 +124,15 @@ describe("ReactVideoPlayer", () => {
         expect(iframe.src).toContain("controls=0");
     });
 
-    it("passes autoPlay to the native <video> element", () => {
+    it("calls play() on the native <video> when autoPlay is set, after metadata loads", async () => {
         const { container } = render(
             <ReactVideoPlayer src="https://example.com/video.mp4" autoPlay />
         );
         const video = container.querySelector("video") as HTMLVideoElement;
-        expect(video.autoplay).toBe(true);
+        // The HLSPlayer waits for the `loadedmetadata` event before calling
+        // play() — simulate it firing.
+        video.dispatchEvent(new Event("loadedmetadata"));
+        // The setup file mocks play() as a vi.fn() resolving to undefined.
+        expect(video.play).toHaveBeenCalled();
     });
 });
